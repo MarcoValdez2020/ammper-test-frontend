@@ -1,0 +1,52 @@
+@if (isLoading()) {
+  <!-- Loading skeleton -->
+  <p-card styleClass="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+    <ng-template pTemplate="content">
+      <div class="text-center space-y-4">
+        <p-skeleton width="60%" height="1.5rem" styleClass="bg-white/20" />
+        <p-skeleton width="80%" height="3rem" styleClass="bg-white/20" />
+        <div class="flex justify-around mt-4">
+          <div class="text-center">
+            <p-skeleton width="4rem" height="1rem" styleClass="bg-white/20 mb-2" />
+            <p-skeleton width="6rem" height="1.5rem" styleClass="bg-white/20" />
+          </div>
+          <div class="text-center">
+            <p-skeleton width="4rem" height="1rem" styleClass="bg-white/20 mb-2" />
+            <p-skeleton width="6rem" height="1.5rem" styleClass="bg-white/20" />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-card>
+} @else if (kpiData()) {
+  <!-- KPI Balance Display -->
+  <p-card styleClass="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+    <ng-template pTemplate="content">
+      <div class="text-center space-y-4">
+        <h2 class="text-lg font-semibold opacity-90">Balance Neto</h2>
+        <div class="text-4xl font-bold">
+          {{ formatCurrency(kpiData()!.net_balance, kpiData()!.currency) }}
+        </div>
+
+        <div class="flex justify-around mt-6">
+          <div class="text-center">
+            <p class="text-sm opacity-75 mb-1">Ingresos</p>
+            <p class="text-xl font-semibold text-green-200">
+              {{ formatCurrency(kpiData()!.total_inflows, kpiData()!.currency) }}
+            </p>
+          </div>
+          <div class="text-center">
+            <p class="text-sm opacity-75 mb-1">Egresos</p>
+            <p class="text-xl font-semibold text-red-200">
+              {{ formatCurrency(kpiData()!.total_outflows, kpiData()!.currency) }}
+            </p>
+          </div>
+        </div>
+
+        <div class="text-sm opacity-75 mt-4">
+          {{ kpiData()!.transactions_count }} transacciones • {{ kpiData()!.calculation_period }}
+        </div>
+      </div>
+    </ng-template>
+  </p-card>
+}
