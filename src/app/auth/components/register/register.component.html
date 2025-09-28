@@ -1,0 +1,59 @@
+<div class="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">
+  <div class="w-full max-w-sm">
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="text-center p-6 pb-2">
+          <div class="w-16 h-16 bg-green-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+            <i class="pi pi-user-plus text-white text-2xl"></i>
+          </div>
+          <h1 class="text-2xl font-bold text-gray-800">Crear Cuenta</h1>
+          <p class="text-gray-600 text-sm mt-1">Regístrate para acceder a tus finanzas</p>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="content">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
+          @if (errorMessage()) {
+          <p-message severity="error" [text]="errorMessage()!" />
+          }
+
+          @if (successMessage()) {
+          <p-message severity="success" [text]="successMessage()!" />
+          }
+
+          <p-floatlabel>
+            <input id="email" type="email" pInputText formControlName="email" class="w-full"
+              [class.ng-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" />
+            <label for="email">Correo electrónico</label>
+          </p-floatlabel>
+
+          <p-floatlabel>
+            <p-password id="password" formControlName="password" [toggleMask]="true" [feedback]="true"
+              styleClass="w-full" inputStyleClass="w-full" />
+            <label for="password">Contraseña (mínimo 8 caracteres)</label>
+          </p-floatlabel>
+
+          <p-floatlabel>
+            <p-password id="confirmPassword" formControlName="confirmPassword" [toggleMask]="true" [feedback]="false"
+              styleClass="w-full" inputStyleClass="w-full" />
+            <label for="confirmPassword">Confirmar contraseña</label>
+          </p-floatlabel>
+
+          @if (passwordMismatch()) {
+          <p-message severity="warn" text="Las contraseñas no coinciden" />
+          }
+
+          <p-button type="submit" label="Crear Cuenta" styleClass="w-full" [loading]="isLoading()"
+            [disabled]="registerForm.invalid || isLoading() || passwordMismatch()" />
+        </form>
+      </ng-template>
+
+      <ng-template pTemplate="footer">
+        <div class="text-center pt-4 border-t border-gray-200">
+          <p class="text-gray-600 text-sm mb-3">¿Ya tienes una cuenta?</p>
+          <p-button label="Iniciar Sesión" severity="secondary" styleClass="w-full" (onClick)="goToLogin()" />
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>
