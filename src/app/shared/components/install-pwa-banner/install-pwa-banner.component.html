@@ -1,0 +1,41 @@
+@if (canInstall() && !isInstalled()) {
+  <div class="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-sm animate-slide-up">
+    <p-card styleClass="bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-2xl border-0">
+      <ng-template pTemplate="content">
+        <div class="flex items-start gap-3">
+          <!-- App Icon -->
+          <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+            <i class="pi pi-mobile text-2xl"></i>
+          </div>
+
+          <!-- Content -->
+          <div class="flex-1 min-w-0">
+            <h3 class="font-bold text-lg mb-1">¡Instala Ammper!</h3>
+            <p class="text-blue-100 text-sm mb-3">
+              Accede más rápido y sin conexión. ¡Como una app nativa!
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-2">
+              <p-button
+                label="Instalar"
+                icon="pi pi-download"
+                size="small"
+                styleClass="bg-white text-blue-600 hover:bg-blue-50 border-0 font-semibold"
+                (onClick)="installApp()"
+              />
+              <p-button
+                icon="pi pi-times"
+                size="small"
+                [text]="true"
+                styleClass="text-white hover:bg-white/10"
+                (onClick)="dismissBanner()"
+                pTooltip="Cerrar"
+              />
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+}
