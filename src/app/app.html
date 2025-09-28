@@ -1,4 +1,26 @@
-<p>Hola mundo</p>
+<div class="app-container">
+  <p-card header="{{ title() }}" class="welcome-card">
+    <p>{{ message() }}</p>
 
+    <div class="demo-section">
+      <h3>Ejemplo de componentes PrimeNG:</h3>
+
+      <div class="component-demo">
+        <label for="username">Usuario:</label>
+        <input id="username" type="text" pInputText placeholder="Ingresa tu nombre" />
+      </div>
+
+      <div class="component-demo">
+        <p-button label="Botón Primary" severity="primary" />
+        <p-button label="Botón Secondary" severity="secondary" />
+        <p-button label="Con Icono" icon="pi pi-star" />
+      </div>
+    </div>
+  </p-card>
+
+  <h1 class="text-3xl font-bold underline">
+  Hello world!
+</h1>
+</div>
 
 <router-outlet />
