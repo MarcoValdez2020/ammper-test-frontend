@@ -1,0 +1,115 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <p-toolbar styleClass="border-none shadow-sm bg-white">
+    <ng-template pTemplate="start">
+      <div class="flex items-center">
+        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+          <i class="pi pi-building text-white text-sm"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-gray-800">Bancos Disponibles</h1>
+          <p class="text-sm text-gray-600">{{ currentUser()?.email }}</p>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="end">
+      <p-button
+        icon="pi pi-sign-out"
+        severity="secondary"
+        [text]="true"
+        (onClick)="logout()"
+        pTooltip="Cerrar sesión"
+      />
+    </ng-template>
+  </p-toolbar>
+
+  <!-- Search -->
+  <div class="p-4">
+    <div class="relative">
+      <input
+        type="text"
+        pInputText
+        placeholder="Buscar banco..."
+        class="w-full pl-10"
+        #searchInput
+        (input)="onSearch(searchInput.value)"
+      />
+      <i class="pi pi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="p-4 pt-0">
+    @if (isLoading()) {
+      <!-- Loading Skeletons -->
+      @for (item of [1,2,3,4,5]; track item) {
+        <div class="mb-4">
+          <p-card>
+            <ng-template pTemplate="content">
+              <div class="flex items-center space-x-4">
+                <p-skeleton shape="circle" size="3rem" />
+                <div class="flex-1">
+                  <p-skeleton width="60%" height="1.2rem" styleClass="mb-2" />
+                  <p-skeleton width="40%" height="1rem" />
+                </div>
+                <p-skeleton width="4rem" height="2.5rem" />
+              </div>
+            </ng-template>
+          </p-card>
+        </div>
+      }
+    } @else if (errorMessage()) {
+      <p-message
+        severity="error"
+        [text]="errorMessage()!"
+        styleClass="w-full"
+      />
+      <div class="text-center mt-4">
+        <p-button
+          label="Reintentar"
+          icon="pi pi-refresh"
+          (onClick)="loadBanks()"
+        />
+      </div>
+    } @else if (filteredBanks().length > 0) {
+      <!-- Banks List -->
+      @for (bank of filteredBanks(); track bank.id) {
+        <div class="mb-4">
+          <p-card
+            styleClass="cursor-pointer hover:shadow-md transition-shadow duration-200"
+            (click)="selectBank(bank)"
+          >
+            <ng-template pTemplate="content">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center"
+                     [style.background-color]="bank.primary_color || '#3B82F6'">
+                  @if (bank.logo) {
+                    <img [src]="bank.logo" [alt]="bank.display_name" class="w-8 h-8 rounded-full" />
+                  } @else {
+                    <i class="pi pi-building text-white"></i>
+                  }
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-semibold text-gray-800 truncate">{{ bank.display_name }}</h3>
+                  <p class="text-sm text-gray-600 truncate">{{ bank.name }}</p>
+                  @if (bank.type) {
+                    <span class="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full mt-1">
+                      {{ bank.type }}
+                    </span>
+                  }
+                </div>
+                <i class="pi pi-chevron-right text-gray-400"></i>
+              </div>
+            </ng-template>
+          </p-card>
+        </div>
+      }
+    } @else {
+      <div class="text-center py-8">
+        <i class="pi pi-search text-4xl text-gray-300 mb-4"></i>
+        <p class="text-gray-500">No se encontraron bancos</p>
+      </div>
+    }
+  </div>
+</div>
